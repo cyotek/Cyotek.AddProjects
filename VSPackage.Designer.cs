@@ -70,7 +70,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cyotek App Projects 1.0.1.0 package for Microsoft Visual Studio. For more information about this extension, visit http://cyotek.com/. Copyright © 2013-2014 Cyotek..
+        ///   Looks up a localized string similar to Cyotek App Projects 1.0.2.0 package for Microsoft Visual Studio. For more information about this extension, visit http://www.cyotek.com/. Copyright © 2013-2014 Cyotek Ltd..
         /// </summary>
         internal static string _112 {
             get {

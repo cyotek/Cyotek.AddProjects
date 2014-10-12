@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Cyotek.Windows.Forms;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -15,6 +16,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 {
   internal partial class AddProjectsDialog : Form
   {
+    #region Instance Fields
+
+    private new ListViewColumnSorter _listViewColumnSorter;
+
+    #endregion
+
     #region Public Constructors
 
     public AddProjectsDialog()
@@ -63,6 +70,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     protected override void OnLoad(EventArgs e)
     {
       base.OnLoad(e);
+
+      _listViewColumnSorter = new ListViewColumnSorter
+      {
+        SortOrder = SortOrder.Ascending
+      };
+      projectsListView.ListViewItemSorter = _listViewColumnSorter;
 
       this.MinimumSize = this.Size;
       this.Font = SystemFonts.DialogFont;
@@ -180,6 +193,8 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
           this.AddProjectItem(fileName, false);
         }
 
+        projectsListView.Sort();
+
         projectsListView.EndUpdate();
         this.EndAction();
       }
@@ -264,7 +279,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     {
       try
       {
-        Process.Start("http://cyotek.com/");
+        Process.Start("http://www.cyotek.com/");
       }
       catch (Win32Exception ex)
       {
@@ -330,6 +345,21 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         // slightly evil exception handler but crashes were getting silently ignored
         MessageBox.Show(ex.GetBaseException().Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
+    }
+
+    private void projectsListView_ColumnClick(object sender, ColumnClickEventArgs e)
+    {
+      if (e.Column == _listViewColumnSorter.SortColumn)
+      {
+        _listViewColumnSorter.SortOrder = _listViewColumnSorter.SortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+      }
+      else
+      {
+        _listViewColumnSorter.SortColumn = e.Column;
+        _listViewColumnSorter.SortOrder = SortOrder.Ascending;
+      }
+
+      projectsListView.Sort();
     }
 
     private void projectsListView_KeyUp(object sender, KeyEventArgs e)

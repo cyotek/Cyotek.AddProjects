@@ -121,7 +121,7 @@
     <value>Cyotek Add Projects</value>
   </data>
   <data name="112" xml:space="preserve">
-    <value>Cyotek App Projects 1.0.1.0 package for Microsoft Visual Studio. For more information about this extension, visit http://cyotek.com/. Copyright © 2013-2014 Cyotek.</value>
+    <value>Cyotek App Projects 1.0.2.0 package for Microsoft Visual Studio. For more information about this extension, visit http://www.cyotek.com/. Copyright © 2013-2014 Cyotek Ltd.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="400" type="System.Resources.ResXFileRef, System.Windows.Forms">

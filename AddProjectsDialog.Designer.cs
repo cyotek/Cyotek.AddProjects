@@ -64,14 +64,13 @@
             this.nameColumnHeader,
             this.pathColumnHeader});
       this.projectsListView.FullRowSelect = true;
-      this.projectsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
       this.projectsListView.Location = new System.Drawing.Point(12, 38);
       this.projectsListView.Name = "projectsListView";
       this.projectsListView.Size = new System.Drawing.Size(660, 345);
-      this.projectsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
       this.projectsListView.TabIndex = 1;
       this.projectsListView.UseCompatibleStateImageBehavior = false;
       this.projectsListView.View = System.Windows.Forms.View.Details;
+      this.projectsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.projectsListView_ColumnClick);
       this.projectsListView.SelectedIndexChanged += new System.EventHandler(this.projectsListView_SelectedIndexChanged);
       this.projectsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.projectsListView_KeyUp);
       // 
@@ -174,11 +173,11 @@
       this.homeLinkLabel.AutoSize = true;
       this.homeLinkLabel.Location = new System.Drawing.Point(9, 394);
       this.homeLinkLabel.Name = "homeLinkLabel";
-      this.homeLinkLabel.Size = new System.Drawing.Size(62, 13);
+      this.homeLinkLabel.Size = new System.Drawing.Size(89, 13);
       this.homeLinkLabel.TabIndex = 7;
       this.homeLinkLabel.TabStop = true;
-      this.homeLinkLabel.Text = "cyotek.com";
-      this.toolTip.SetToolTip(this.homeLinkLabel, "Visit cyotek.com");
+      this.homeLinkLabel.Text = "www.cyotek.com";
+      this.toolTip.SetToolTip(this.homeLinkLabel, "Visit www.cyotek.com");
       this.homeLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.homeLinkLabel_LinkClicked);
       // 
       // AddProjectsDialog

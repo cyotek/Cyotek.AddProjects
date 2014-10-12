@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="af385d18-dd14-4c1b-a4ad-3e69c525312f" Version="1.0.1.0" Language="en-US" Publisher="Cyotek" />
+    <Identity Id="af385d18-dd14-4c1b-a4ad-3e69c525312f" Version="1.0.2.0" Language="en-US" Publisher="Cyotek" />
     <DisplayName>Cyotek Add Projects</DisplayName>
     <Description xml:space="preserve">A simple extension that allows you to easily add multiple projects to a solution.</Description>
-    <MoreInfo>http://cyotek.com/blog/tag/vsix</MoreInfo>
+    <MoreInfo>http://www.cyotek.com/blog/tag/vsix</MoreInfo>
     <License>Resources\license.txt</License>
     <Icon>Resources\Package.ico</Icon>
     <PreviewImage>Resources\preview-image.png</PreviewImage>

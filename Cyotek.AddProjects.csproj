@@ -154,6 +154,7 @@
     <Compile Include="ExtensionSettingsProjectCollection.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="AddProjectsPackage.cs" />
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
     <Compile Include="ExtensionSettings.cs" />

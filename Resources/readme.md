@@ -9,4 +9,4 @@ The Add Projects extension is licensed under the MIT License. See `license.txt` 
 
 ## Further Reading
 
-For more information, see article [tagged with vsix](http://cyotek.com/blog/tag/vsix) at cyotek.com.
+For more information, see article [tagged with vsix](http://www.cyotek.com/blog/tag/vsix) at www.cyotek.com.
