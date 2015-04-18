@@ -21,25 +21,26 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     public ExtensionSettings()
     {
       this.Projects = new ExtensionSettingsProjectCollection();
-      this.Filter = "C# Projects (*.csproj)|*.csproj|All Files (*.*)|*.*";
     }
 
     #endregion
 
-    #region Class Properties
+    #region Static Properties
 
     private static XmlSerializer Serializer { get; set; }
 
     #endregion
 
-    #region Class Members
+    #region Static Methods
 
     public static ExtensionSettings Load(string fileName)
     {
       ExtensionSettings settings;
 
       if (string.IsNullOrEmpty(fileName))
+      {
         throw new ArgumentNullException("fileName");
+      }
 
       settings = new ExtensionSettings();
 
@@ -48,7 +49,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         try
         {
           using (FileStream stream = File.OpenRead(fileName))
+          {
             settings = (ExtensionSettings)Serializer.Deserialize(stream);
+          }
         }
           // ReSharper disable EmptyGeneralCatchClause
         catch
@@ -65,23 +68,25 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     #region Properties
 
-    public string Filter { get; set; }
-
     public ExtensionSettingsProjectCollection Projects { get; set; }
 
     #endregion
 
-    #region Members
+    #region Methods
 
     public void Save(string fileName)
     {
       if (string.IsNullOrEmpty(fileName))
+      {
         throw new ArgumentNullException("fileName");
+      }
 
       Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
       using (Stream stream = File.Create(fileName))
+      {
         Serializer.Serialize(stream, this);
+      }
     }
 
     #endregion

@@ -60,6 +60,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <Prefer32Bit>false</Prefer32Bit>
+    <DeployExtension>False</DeployExtension>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -150,14 +151,33 @@
     <Compile Include="AddProjectsDialog.Designer.cs">
       <DependentUpon>AddProjectsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Guids.cs" />
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtensionSettingsProjectCollection.cs" />
+    <Compile Include="FileDialogFilterBuilder.cs" />
+    <Compile Include="FileDialogFilterBuilderOptions.cs" />
+    <Compile Include="FileNameListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FindProjectsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindProjectsDialog.Designer.cs">
+      <DependentUpon>FindProjectsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="AddProjectsPackage.cs" />
+    <Compile Include="Guids.cs" />
     <Compile Include="ListViewColumnSorter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="PkgCmdID.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtensionSettings.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +187,12 @@
   <ItemGroup>
     <EmbeddedResource Include="AddProjectsDialog.resx">
       <DependentUpon>AddProjectsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindProjectsDialog.resx">
+      <DependentUpon>FindProjectsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
@@ -189,23 +215,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\license.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\preview-image.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>

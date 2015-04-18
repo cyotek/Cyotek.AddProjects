@@ -2,17 +2,17 @@
 using System.Collections;
 using System.Windows.Forms;
 
-namespace Cyotek.Windows.Forms
+namespace Cyotek.VisualStudioExtensions.AddProjects
 {
   internal sealed class ListViewColumnSorter : IComparer
   {
-    #region Instance Fields
+    #region Constants
 
     private readonly IComparer _comparer;
 
     #endregion
 
-    #region Public Constructors
+    #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ListViewColumnSorter"/> class.
@@ -38,7 +38,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Public Properties
+    #region Properties
 
     /// <summary>
     /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
@@ -52,7 +52,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region IComparer Members
+    #region IComparer Interface
 
     /// <summary>
     /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.

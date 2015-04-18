@@ -28,7 +28,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   [Guid(GuidList.guidCyotek_AddProjectsPkgString)]
   public sealed class AddProjectsPackage : Package
   {
-    #region Overridden Members
+    #region Methods
 
     /// <summary>
     /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -49,15 +49,11 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         MenuCommand menuItem;
 
         menuCommandId = new CommandID(GuidList.guidCyotek_AddProjectsCmdSet, (int)PkgCmdIDList.cmdidCyotekAddProjects);
-        menuItem = new MenuCommand(MenuItemCallback, menuCommandId);
+        menuItem = new MenuCommand(this.MenuItemCallback, menuCommandId);
 
         menuCommandService.AddCommand(menuItem);
       }
     }
-
-    #endregion
-
-    #region Members
 
     /// <summary>
     /// This function is the callback used to execute a command when the a menu item is clicked.
@@ -81,13 +77,19 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         if (!(string.IsNullOrEmpty(solutionDirectory) || string.IsNullOrEmpty(solutionFileName)))
         {
           using (AddProjectsDialog dialog = new AddProjectsDialog(solution))
+          {
             dialog.ShowDialog();
+          }
         }
         else
+        {
           MessageBox.Show("This command can only be used with a saved solution.", "Add Projects", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
       }
       else
+      {
         MessageBox.Show("This command can only be used with an open solution.", "Add Projects", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+      }
     }
 
     #endregion

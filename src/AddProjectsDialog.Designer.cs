@@ -30,9 +30,7 @@
     {
       this.components = new System.ComponentModel.Container();
       this.projectsLabel = new System.Windows.Forms.Label();
-      this.projectsListView = new System.Windows.Forms.ListView();
-      this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.pathColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.projectsListView = new Cyotek.VisualStudioExtensions.AddProjects.FileNameListView();
       this.addFileButton = new System.Windows.Forms.Button();
       this.addFolderButton = new System.Windows.Forms.Button();
       this.okButton = new System.Windows.Forms.Button();
@@ -48,7 +46,7 @@
       // projectsLabel
       // 
       this.projectsLabel.AutoSize = true;
-      this.projectsLabel.Location = new System.Drawing.Point(12, 22);
+      this.projectsLabel.Location = new System.Drawing.Point(9, 22);
       this.projectsLabel.Name = "projectsLabel";
       this.projectsLabel.Size = new System.Drawing.Size(224, 13);
       this.projectsLabel.TabIndex = 0;
@@ -60,29 +58,17 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.projectsListView.CheckBoxes = true;
-      this.projectsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.nameColumnHeader,
-            this.pathColumnHeader});
       this.projectsListView.FullRowSelect = true;
       this.projectsListView.Location = new System.Drawing.Point(12, 38);
       this.projectsListView.Name = "projectsListView";
+      this.projectsListView.ShowItemToolTips = true;
       this.projectsListView.Size = new System.Drawing.Size(660, 345);
       this.projectsListView.TabIndex = 1;
       this.projectsListView.UseCompatibleStateImageBehavior = false;
       this.projectsListView.View = System.Windows.Forms.View.Details;
-      this.projectsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.projectsListView_ColumnClick);
+      this.projectsListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.projectsListView_ItemChecked);
       this.projectsListView.SelectedIndexChanged += new System.EventHandler(this.projectsListView_SelectedIndexChanged);
       this.projectsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.projectsListView_KeyUp);
-      // 
-      // nameColumnHeader
-      // 
-      this.nameColumnHeader.Text = "Name";
-      this.nameColumnHeader.Width = 120;
-      // 
-      // pathColumnHeader
-      // 
-      this.pathColumnHeader.Text = "Path";
-      this.pathColumnHeader.Width = 360;
       // 
       // addFileButton
       // 
@@ -170,6 +156,7 @@
       // 
       // homeLinkLabel
       // 
+      this.homeLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.homeLinkLabel.AutoSize = true;
       this.homeLinkLabel.Location = new System.Drawing.Point(9, 394);
       this.homeLinkLabel.Name = "homeLinkLabel";
@@ -197,14 +184,8 @@
       this.Controls.Add(this.addFileButton);
       this.Controls.Add(this.projectsListView);
       this.Controls.Add(this.projectsLabel);
-      this.MaximizeBox = false;
-      this.MinimizeBox = false;
       this.Name = "AddProjectsDialog";
-      this.ShowIcon = false;
-      this.ShowInTaskbar = false;
-      this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-      this.Text = "Add Projects";
+      this.Text = "Add Existing Projects";
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -213,14 +194,12 @@
     #endregion
 
     private System.Windows.Forms.Label projectsLabel;
-    private System.Windows.Forms.ListView projectsListView;
+    private FileNameListView projectsListView;
     private System.Windows.Forms.Button addFileButton;
     private System.Windows.Forms.Button addFolderButton;
     private System.Windows.Forms.Button okButton;
     private System.Windows.Forms.Button cancelButton;
     private System.Windows.Forms.Button removeButton;
-    private System.Windows.Forms.ColumnHeader nameColumnHeader;
-    private System.Windows.Forms.ColumnHeader pathColumnHeader;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox filterTextBox;
     private System.Windows.Forms.Timer updateFilterTimer;
