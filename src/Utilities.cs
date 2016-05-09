@@ -10,12 +10,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   {
     #region Static Methods
 
-    internal static Regex CreateDefaultSearchPattern()
+    internal static string[] GetSearchMasks()
     {
-      return CreateSearchPattern(GetProjectsFilter().ToString());
+      return GetSearchMasks(GetProjectsFilter().ToString());
     }
 
-    internal static Regex CreateSearchPattern(string filter)
+    internal static string[] GetSearchMasks(string filter)
     {
       List<string> masks;
       string[] filterParts;
@@ -28,7 +28,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         masks.AddRange(filterParts[i].Split(';').Where(mask => mask != "*.*" && !masks.Contains(mask, StringComparer.InvariantCultureIgnoreCase)));
       }
 
-      return new Regex(string.Join("|", masks.Select(m => m.Replace(".", @"\.").Replace("*", ".*") + "$")));
+      return masks.ToArray();
     }
 
     internal static FileDialogFilterBuilder GetProjectsFilter()

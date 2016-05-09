@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
@@ -17,7 +17,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     #region Fields
 
-    private Regex _searchPattern;
+    private string[] _searchMasks;
+
+    private bool _searchPathChanged;
 
     #endregion
 
@@ -35,6 +37,8 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     }
 
     #endregion
+
+    #region Properties
 
     public string[] FileNames
     {
@@ -54,15 +58,15 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
+    #endregion
+
     #region Methods
 
     private void browseButton_Click(object sender, EventArgs e)
     {
       using (FolderBrowserDialog dialog = new FolderBrowserDialog
                                           {
-                                            ShowNewFolderButton = true,
-                                            Description = "Select the &folder to scan for projects:",
-                                            SelectedPath = folderTextBox.Text
+                                            ShowNewFolderButton = true, Description = "Select the &folder to scan for projects:", SelectedPath = folderTextBox.Text
                                           })
       {
         if (dialog.ShowDialog(this) == DialogResult.OK)
@@ -73,53 +77,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
-    #endregion
-
-    private void SearchProjects()
+    private void cancelButton_Click(object sender, EventArgs e)
     {
-      try
-      {
-        string path;
-
-        _searchPathChanged = false;
-
-        path = folderTextBox.Text;
-
-        if (!string.IsNullOrWhiteSpace(path) && path.Length > 3 && Directory.Exists(path))
-        {
-          if (_searchPattern == null)
-          {
-            _searchPattern = Utilities.CreateDefaultSearchPattern();
-          }
-
-          if (path[path.Length - 1] != Path.DirectorySeparatorChar && path[path.Length - 1] != Path.AltDirectorySeparatorChar)
-          {
-            path = string.Concat(path, Path.DirectorySeparatorChar.ToString());
-          }
-
-          this.BeginAction();
-
-          projectsListView.BeginUpdate();
-          projectsListView.Items.Clear();
-
-          // ReSharper disable once LoopCanBePartlyConvertedToQuery
-          foreach (string fileName in Directory.GetFiles(path, "*.*", SearchOption.AllDirectories))
-          {
-            if (_searchPattern.IsMatch(fileName) && !_existingFiles.Any(f => string.Equals(f, fileName, StringComparison.InvariantCultureIgnoreCase)))
-            {
-              projectsListView.AddFile(fileName, true);
-            }
-          }
-
-          projectsListView.EndUpdate();
-
-          this.EndAction();
-        }
-      }
-      catch (Exception ex)
-      {
-        Utilities.ShowExceptionMessage(ex);
-      }
+      this.DialogResult = DialogResult.Cancel;
+      this.Close();
     }
 
     private void folderTextBox_Leave(object sender, EventArgs e)
@@ -130,10 +91,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
-    private void cancelButton_Click(object sender, EventArgs e)
+    private void folderTextBox_TextChanged(object sender, EventArgs e)
     {
-      this.DialogResult = DialogResult.Cancel;
-      this.Close();
+      _searchPathChanged = true;
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -150,11 +110,65 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
-    private bool _searchPathChanged;
-
-    private void folderTextBox_TextChanged(object sender, EventArgs e)
+    private void SearchProjects()
     {
-      _searchPathChanged = true;
+      try
+      {
+        string path;
+
+        _searchPathChanged = false;
+
+        path = folderTextBox.Text;
+
+        if (!string.IsNullOrWhiteSpace(path) && path.Length > 3 && Directory.Exists(path))
+        {
+          HashSet<string> matchingfiles;
+
+          matchingfiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+          if (_searchMasks == null)
+          {
+            _searchMasks = Utilities.GetSearchMasks();
+          }
+
+          if (path[path.Length - 1] != Path.DirectorySeparatorChar && path[path.Length - 1] != Path.AltDirectorySeparatorChar)
+          {
+            path = string.Concat(path, Path.DirectorySeparatorChar.ToString());
+          }
+
+          this.BeginAction();
+
+          Parallel.ForEach(_searchMasks, mask =>
+                                         {
+                                           // ReSharper disable once LoopCanBePartlyConvertedToQuery
+                                           foreach (string fileName in Directory.EnumerateFiles(path, mask, SearchOption.AllDirectories))
+                                           {
+                                             if (!matchingfiles.Contains(fileName) && !_existingFiles.Any(f => string.Equals(f, fileName, StringComparison.InvariantCultureIgnoreCase)))
+                                             {
+                                               matchingfiles.Add(fileName);
+                                             }
+                                           }
+                                         });
+
+          projectsListView.BeginUpdate();
+          projectsListView.Items.Clear();
+
+          foreach (string fileName in matchingfiles)
+          {
+            projectsListView.AddFile(fileName, true);
+          }
+
+          projectsListView.EndUpdate();
+
+          this.EndAction();
+        }
+      }
+      catch (Exception ex)
+      {
+        Utilities.ShowExceptionMessage(ex);
+      }
     }
+
+    #endregion
   }
 }
