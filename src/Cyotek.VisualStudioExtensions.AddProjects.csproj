@@ -169,6 +169,12 @@
     <Compile Include="FindProjectsDialog.Designer.cs">
       <DependentUpon>FindProjectsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="FolderExclusionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FolderExclusionsDialog.Designer.cs">
+      <DependentUpon>FolderExclusionsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="AddProjectsPackage.cs" />
     <Compile Include="Guids.cs" />
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FindProjectsDialog.resx">
       <DependentUpon>FindProjectsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FolderExclusionsDialog.resx">
+      <DependentUpon>FolderExclusionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

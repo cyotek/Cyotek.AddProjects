@@ -21,6 +21,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     public ExtensionSettings()
     {
       this.Projects = new ExtensionSettingsProjectCollection();
+      this.ExcludedFolders = new ExtensionSettingsProjectCollection();
     }
 
     #endregion
@@ -39,7 +40,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
       if (string.IsNullOrEmpty(fileName))
       {
-        throw new ArgumentNullException("fileName");
+        throw new ArgumentNullException(nameof(fileName));
       }
 
       settings = new ExtensionSettings();
@@ -53,9 +54,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
             settings = (ExtensionSettings)Serializer.Deserialize(stream);
           }
         }
-          // ReSharper disable EmptyGeneralCatchClause
         catch
-          // ReSharper restore EmptyGeneralCatchClause
         {
           // ignore exceptions
         }
@@ -68,6 +67,8 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     #region Properties
 
+    public ExtensionSettingsProjectCollection ExcludedFolders { get; set; }
+
     public ExtensionSettingsProjectCollection Projects { get; set; }
 
     #endregion
@@ -78,7 +79,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     {
       if (string.IsNullOrEmpty(fileName))
       {
-        throw new ArgumentNullException("fileName");
+        throw new ArgumentNullException(nameof(fileName));
       }
 
       Directory.CreateDirectory(Path.GetDirectoryName(fileName));

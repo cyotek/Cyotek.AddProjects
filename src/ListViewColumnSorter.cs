@@ -30,7 +30,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     {
       if (comparer == null)
       {
-        throw new ArgumentNullException("comparer");
+        throw new ArgumentNullException(nameof(comparer));
       }
 
       _comparer = comparer;

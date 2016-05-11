@@ -15,7 +15,7 @@ To enable debugging of the extension, you need to run it in the context of the V
 
 * Open the Project Properties for the extension
 * On the **Debug** tab, set the **Start Action** to be **Start External Program**
-* Set the external program to be the Visual Studio developer environment - typically `C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe` (VS2013 on 64bit O/S) or `C:\Program Files\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe` (VS2013 on 32bit O/S) 
+* Set the external program to be the Visual Studio developer environment - typically `C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe` (VS2015 on 64bit O/S) or `C:\Program Files\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe` (VS2015 on 32bit O/S) 
 * Set the **Command Line Arguments** to be `/rootsuffix Exp`
 
 You may also need the Visual Studio 2015 SDK. If this isn't already installed, Visual Studio 2015 will automatically prompt to install upon opening the solution.

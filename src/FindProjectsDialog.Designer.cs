@@ -35,6 +35,7 @@
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
       this.projectsListView = new Cyotek.VisualStudioExtensions.AddProjects.FileNameListView();
+      this.excludeFoldersLinkLabel = new System.Windows.Forms.LinkLabel();
       this.SuspendLayout();
       // 
       // label1
@@ -85,7 +86,7 @@
       this.okButton.Location = new System.Drawing.Point(393, 320);
       this.okButton.Name = "okButton";
       this.okButton.Size = new System.Drawing.Size(75, 23);
-      this.okButton.TabIndex = 5;
+      this.okButton.TabIndex = 6;
       this.okButton.Text = "OK";
       this.okButton.UseVisualStyleBackColor = true;
       this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -97,7 +98,7 @@
       this.cancelButton.Location = new System.Drawing.Point(474, 320);
       this.cancelButton.Name = "cancelButton";
       this.cancelButton.Size = new System.Drawing.Size(75, 23);
-      this.cancelButton.TabIndex = 6;
+      this.cancelButton.TabIndex = 7;
       this.cancelButton.Text = "Cancel";
       this.cancelButton.UseVisualStyleBackColor = true;
       this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -117,6 +118,18 @@
       this.projectsListView.UseCompatibleStateImageBehavior = false;
       this.projectsListView.View = System.Windows.Forms.View.Details;
       // 
+      // excludeFoldersLinkLabel
+      // 
+      this.excludeFoldersLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.excludeFoldersLinkLabel.AutoSize = true;
+      this.excludeFoldersLinkLabel.Location = new System.Drawing.Point(12, 325);
+      this.excludeFoldersLinkLabel.Name = "excludeFoldersLinkLabel";
+      this.excludeFoldersLinkLabel.Size = new System.Drawing.Size(267, 13);
+      this.excludeFoldersLinkLabel.TabIndex = 5;
+      this.excludeFoldersLinkLabel.TabStop = true;
+      this.excludeFoldersLinkLabel.Text = "Choose which folders should be automatically excluded";
+      this.excludeFoldersLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.excludeFoldersLinkLabel_LinkClicked);
+      // 
       // FindProjectsDialog
       // 
       this.AcceptButton = this.okButton;
@@ -124,6 +137,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.cancelButton;
       this.ClientSize = new System.Drawing.Size(561, 355);
+      this.Controls.Add(this.excludeFoldersLinkLabel);
       this.Controls.Add(this.projectsListView);
       this.Controls.Add(this.cancelButton);
       this.Controls.Add(this.okButton);
@@ -147,5 +161,6 @@
     private System.Windows.Forms.Button okButton;
     private System.Windows.Forms.Button cancelButton;
     private FileNameListView projectsListView;
+    private System.Windows.Forms.LinkLabel excludeFoldersLinkLabel;
   }
 }

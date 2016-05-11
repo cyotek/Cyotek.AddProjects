@@ -1,8 +1,17 @@
 Change Log
 ==========
 
+1.0.5.0
+-------
+
+#### Added
+* Added the ability to exclude folders such as `bower_components`, `node_modules`, `bin`, `obj` etc from being automatically scanned
+
+#### Changed
+* Improved error messages when a project cannot be added as the source file can no longer be found
+
 1.0.4.0
------
+-------
 
 #### Changed
 * Improved the performance of searching folders for projects [[#2]](https://github.com/cyotek/Cyotek.AddProjects/issues/2)

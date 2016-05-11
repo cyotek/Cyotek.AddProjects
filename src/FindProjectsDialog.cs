@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,7 +10,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   {
     #region Constants
 
-    private readonly string[] _existingFiles;
+    private readonly ExtensionSettings _settings;
 
     #endregion
 
@@ -30,10 +29,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       this.InitializeComponent();
     }
 
-    public FindProjectsDialog(string[] existingFiles)
+    public FindProjectsDialog(ExtensionSettings settings)
       : this()
     {
-      _existingFiles = existingFiles;
+      _settings = settings;
     }
 
     #endregion
@@ -83,6 +82,23 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       this.Close();
     }
 
+    private void excludeFoldersLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      using (FolderExclusionsDialog dialog = new FolderExclusionsDialog(_settings.ExcludedFolders))
+      {
+        if (dialog.ShowDialog(this) == DialogResult.OK)
+        {
+          // update the settings
+          // note they currently won't be saved as we don't have access to the filename right now
+          _settings.ExcludedFolders.Clear();
+          _settings.ExcludedFolders.AddRange(dialog.ExcludedFolders);
+
+          // re-apply the search so we can exclude anything previously picked up
+          this.SearchProjects();
+        }
+      }
+    }
+
     private void folderTextBox_Leave(object sender, EventArgs e)
     {
       if (_searchPathChanged)
@@ -94,6 +110,26 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     private void folderTextBox_TextChanged(object sender, EventArgs e)
     {
       _searchPathChanged = true;
+    }
+
+    private bool IsExcluded(string fileName)
+    {
+      bool excluded;
+
+      excluded = false;
+
+      // ReSharper disable once LoopCanBeConvertedToQuery
+      foreach (string pattern in _settings.ExcludedFolders)
+      {
+        // TODO: Can't be hassled with regex's right now, so it's just a contains match
+        if (fileName.IndexOf(pattern, StringComparison.OrdinalIgnoreCase) != -1)
+        {
+          excluded = true;
+          break;
+        }
+      }
+
+      return excluded;
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -143,7 +179,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
                                            // ReSharper disable once LoopCanBePartlyConvertedToQuery
                                            foreach (string fileName in Directory.EnumerateFiles(path, mask, SearchOption.AllDirectories))
                                            {
-                                             if (!matchingfiles.Contains(fileName) && !_existingFiles.Any(f => string.Equals(f, fileName, StringComparison.InvariantCultureIgnoreCase)))
+                                             if (!matchingfiles.Contains(fileName) && !_settings.Projects.Contains(fileName) && !this.IsExcluded(fileName))
                                              {
                                                matchingfiles.Add(fileName);
                                              }
