@@ -63,22 +63,13 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
-    private void LoadSettings()
-    {
-      _settingsFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Cyotek\VisualStudioExtensions\AddProjects\config.xml");
-      _settings = ExtensionSettings.Load(_settingsFileName);
-    }
-
     private void addFileButton_Click(object sender, EventArgs e)
     {
       this.EnsureFilterCreated();
 
       using (OpenFileDialog dialog = new OpenFileDialog
                                      {
-                                       Filter = _filter.ToString(),
-                                       DefaultExt = "csproj",
-                                       Title = "Add Project",
-                                       Multiselect = true
+                                       Filter = _filter.ToString(), DefaultExt = "csproj", Title = "Add Project", Multiselect = true
                                      })
       {
         if (dialog.ShowDialog(this) == DialogResult.OK)
@@ -104,7 +95,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void addFolderButton_Click(object sender, EventArgs e)
     {
-      using (FindProjectsDialog dialog = new FindProjectsDialog(_settings.Projects.ToArray()))
+      using (FindProjectsDialog dialog = new FindProjectsDialog(_settings))
       {
         if (dialog.ShowDialog() == DialogResult.OK)
         {
@@ -126,6 +117,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       {
         this.MarkProjectAsLoaded(item);
       }
+#if DEBUG
+      else if (!File.Exists(fileName))
+      {
+        this.MarkProjectAsNotFound(item);
+      }
+#endif
       else
       {
         item.Tag = false;
@@ -139,7 +136,8 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       if (!_settings.Projects.Contains(fileName, StringComparer.InvariantCultureIgnoreCase))
       {
         _settings.Projects.Add(fileName);
-        this.AddProjectItem(fileName, true).EnsureVisible();
+        this.AddProjectItem(fileName, true).
+             EnsureVisible();
       }
     }
 
@@ -197,11 +195,23 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
+    private void LoadSettings()
+    {
+      _settingsFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Cyotek\VisualStudioExtensions\AddProjects\config.xml");
+      _settings = ExtensionSettings.Load(_settingsFileName);
+    }
+
     private void MarkProjectAsLoaded(ListViewItem item)
     {
       item.ForeColor = SystemColors.GrayText;
       item.ToolTipText = "This project is already in the solution";
       item.Tag = true;
+    }
+
+    private void MarkProjectAsNotFound(ListViewItem item)
+    {
+      item.ForeColor = Color.Firebrick;
+      item.ToolTipText = "The project file cannot be found";
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -231,24 +241,33 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
             if (!_loadedProjects.Contains(fileName))
             {
-              Guid projectType;
-              Guid projectId;
-              int result;
-              IntPtr project;
-
-              projectType = Guid.Empty;
-              projectId = Guid.Empty;
-
-              result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
-
-              if (result != VSConstants.S_OK)
+              if (!File.Exists(fileName))
               {
-                errors.AppendFormat("Failed to add project: {0}\n", fileName);
+                errors.AppendLine($"Project file '{fileName}' not found, unable to add to solution.").
+                       AppendLine();
               }
               else
               {
-                _loadedProjects.Add(fileName);
-                this.MarkProjectAsLoaded(item);
+                Guid projectType;
+                Guid projectId;
+                int result;
+                IntPtr project;
+
+                projectType = Guid.Empty;
+                projectId = Guid.Empty;
+
+                result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
+
+                if (result != VSConstants.S_OK)
+                {
+                  errors.AppendLine($"Failed to add project: {fileName}").
+                         AppendLine();
+                }
+                else
+                {
+                  _loadedProjects.Add(fileName);
+                  this.MarkProjectAsLoaded(item);
+                }
               }
             }
           }
@@ -322,7 +341,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       {
         List<string> names;
 
-        names = projectsListView.SelectedItems.Cast<ListViewItem>().Select(i => i.Name).ToList();
+        names = projectsListView.SelectedItems.Cast<ListViewItem>().
+                                 Select(i => i.Name).
+                                 ToList();
         foreach (string name in names)
         {
           _settings.Projects.Remove(name);
