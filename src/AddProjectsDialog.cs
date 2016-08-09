@@ -151,7 +151,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     {
       if (_filter == null)
       {
-        _filter = Utilities.GetProjectsFilter();
+        _filter = Utilities.GetProjectsFilter(_settings.ProjectTypes);
       }
     }
 
