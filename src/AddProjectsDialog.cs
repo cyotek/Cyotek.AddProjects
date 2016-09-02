@@ -69,7 +69,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
       using (OpenFileDialog dialog = new OpenFileDialog
                                      {
-                                       Filter = _filter.ToString(), DefaultExt = "csproj", Title = "Add Project", Multiselect = true
+                                       Filter = _filter.ToString(),
+                                       DefaultExt = "csproj", // TODO: Calculate this based on the filter
+                                       Title = "Add Project",
+                                       Multiselect = true
                                      })
       {
         if (dialog.ShowDialog(this) == DialogResult.OK)
@@ -136,8 +139,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       if (!_settings.Projects.Contains(fileName, StringComparer.InvariantCultureIgnoreCase))
       {
         _settings.Projects.Add(fileName);
-        this.AddProjectItem(fileName, true).
-             EnsureVisible();
+        this.AddProjectItem(fileName, true).EnsureVisible();
       }
     }
 
@@ -243,8 +245,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
             {
               if (!File.Exists(fileName))
               {
-                errors.AppendLine($"Project file '{fileName}' not found, unable to add to solution.").
-                       AppendLine();
+                errors.AppendLine($"Project file '{fileName}' not found, unable to add to solution.").AppendLine();
               }
               else
               {
@@ -260,8 +261,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
                 if (result != VSConstants.S_OK)
                 {
-                  errors.AppendLine($"Failed to add project: {fileName}").
-                         AppendLine();
+                  errors.AppendLine($"Failed to add project: {fileName}").AppendLine();
                 }
                 else
                 {
@@ -341,14 +341,22 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       {
         List<string> names;
 
-        names = projectsListView.SelectedItems.Cast<ListViewItem>().
-                                 Select(i => i.Name).
-                                 ToList();
+        names = projectsListView.SelectedItems.Cast<ListViewItem>().Select(i => i.Name).ToList();
         foreach (string name in names)
         {
           _settings.Projects.Remove(name);
           projectsListView.Items.RemoveByKey(name);
         }
+      }
+    }
+
+    private void settingsButton_Click(object sender, EventArgs e)
+    {
+      if (Utilities.ShowSettingsDialog(this, _settings))
+      {
+        _filter = null;
+
+        _settings.Save(_settingsFileName);
       }
     }
 

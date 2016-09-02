@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
@@ -9,6 +8,61 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   internal static class Utilities
   {
     #region Static Methods
+
+    public static bool ShowSettingsDialog(IWin32Window owner, ExtensionSettings settings)
+    {
+      bool result;
+
+      using (FolderExclusionsDialog dialog = new FolderExclusionsDialog(settings.ExcludedFolders, settings.ProjectTypes))
+      {
+        result = dialog.ShowDialog(owner) == DialogResult.OK;
+
+        if (result)
+        {
+          // update the settings
+          // TODO: note they currently won't be saved as we don't have access to the filename right now
+          settings.ExcludedFolders.Clear();
+          settings.ExcludedFolders.AddRange(dialog.ExcludedFolders);
+
+          settings.ProjectTypes.Clear();
+          settings.ProjectTypes.AddRange(dialog.ProjectTypes);
+        }
+      }
+
+      return result;
+    }
+
+    internal static FileDialogFilterBuilder GetProjectsFilter(ExtensionSettingsProjectCollection projectTypes)
+    {
+      FileDialogFilterBuilder builder;
+
+      builder = new FileDialogFilterBuilder();
+
+      foreach (string projectType in projectTypes)
+      {
+        int endOfNamePosition;
+        string projectName;
+        string projectFilter;
+
+        endOfNamePosition = projectType.IndexOf('|');
+        if (endOfNamePosition == -1)
+        {
+          projectName = projectType;
+          projectFilter = projectType;
+        }
+        else
+        {
+          projectName = projectType.Substring(0, endOfNamePosition);
+          projectFilter = projectType.Substring(endOfNamePosition + 1);
+        }
+
+        builder.Add(projectName, projectFilter);
+      }
+
+      builder.AddAllFiles();
+
+      return builder;
+    }
 
     internal static string[] GetSearchMasks(ExtensionSettingsProjectCollection projectTypes)
     {
@@ -29,25 +83,6 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
 
       return masks.ToArray();
-    }
-
-    internal static FileDialogFilterBuilder GetProjectsFilter(ExtensionSettingsProjectCollection projectTypes)
-    {
-      FileDialogFilterBuilder builder;
-
-      builder = new FileDialogFilterBuilder();
-        foreach (var projectType in projectTypes)
-        {
-            var data = projectType.Split(new [] { '|'}, 1);
-            var projectName = data[0];
-            var projectFilter = data.Length > 1
-                ? data[1]
-                : projectName;
-            builder.Add(projectName, projectFilter);
-        }
-      builder.AddAllFiles();
-
-      return builder;
     }
 
     internal static void ShowExceptionMessage(Exception ex)

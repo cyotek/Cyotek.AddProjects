@@ -29,28 +29,31 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      this.projectsLabel = new System.Windows.Forms.Label();
+      System.Windows.Forms.Label projectsLabel;
+      System.Windows.Forms.Label filterLabel;
       this.projectsListView = new Cyotek.VisualStudioExtensions.AddProjects.FileNameListView();
       this.addFileButton = new System.Windows.Forms.Button();
       this.addFolderButton = new System.Windows.Forms.Button();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
       this.removeButton = new System.Windows.Forms.Button();
-      this.label1 = new System.Windows.Forms.Label();
       this.filterTextBox = new System.Windows.Forms.TextBox();
       this.updateFilterTimer = new System.Windows.Forms.Timer(this.components);
       this.toolTip = new System.Windows.Forms.ToolTip(this.components);
       this.homeLinkLabel = new System.Windows.Forms.LinkLabel();
+      this.settingsButton = new System.Windows.Forms.Button();
+      projectsLabel = new System.Windows.Forms.Label();
+      filterLabel = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // projectsLabel
       // 
-      this.projectsLabel.AutoSize = true;
-      this.projectsLabel.Location = new System.Drawing.Point(9, 22);
-      this.projectsLabel.Name = "projectsLabel";
-      this.projectsLabel.Size = new System.Drawing.Size(224, 13);
-      this.projectsLabel.TabIndex = 0;
-      this.projectsLabel.Text = "Select the &projects to add the current solution:";
+      projectsLabel.AutoSize = true;
+      projectsLabel.Location = new System.Drawing.Point(9, 22);
+      projectsLabel.Name = "projectsLabel";
+      projectsLabel.Size = new System.Drawing.Size(224, 13);
+      projectsLabel.TabIndex = 0;
+      projectsLabel.Text = "Select the &projects to add the current solution:";
       // 
       // projectsListView
       // 
@@ -130,15 +133,15 @@
       this.removeButton.UseVisualStyleBackColor = true;
       this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
       // 
-      // label1
+      // filterLabel
       // 
-      this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(424, 15);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(32, 13);
-      this.label1.TabIndex = 2;
-      this.label1.Text = "&Filter:";
+      filterLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      filterLabel.AutoSize = true;
+      filterLabel.Location = new System.Drawing.Point(424, 15);
+      filterLabel.Name = "filterLabel";
+      filterLabel.Size = new System.Drawing.Size(32, 13);
+      filterLabel.TabIndex = 2;
+      filterLabel.Text = "F&ilter:";
       // 
       // filterTextBox
       // 
@@ -161,11 +164,24 @@
       this.homeLinkLabel.Location = new System.Drawing.Point(9, 394);
       this.homeLinkLabel.Name = "homeLinkLabel";
       this.homeLinkLabel.Size = new System.Drawing.Size(89, 13);
-      this.homeLinkLabel.TabIndex = 7;
+      this.homeLinkLabel.TabIndex = 10;
       this.homeLinkLabel.TabStop = true;
       this.homeLinkLabel.Text = "www.cyotek.com";
       this.toolTip.SetToolTip(this.homeLinkLabel, "Visit www.cyotek.com");
       this.homeLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.homeLinkLabel_LinkClicked);
+      // 
+      // settingsButton
+      // 
+      this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.settingsButton.Location = new System.Drawing.Point(678, 131);
+      this.settingsButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
+      this.settingsButton.Name = "settingsButton";
+      this.settingsButton.Size = new System.Drawing.Size(94, 23);
+      this.settingsButton.TabIndex = 7;
+      this.settingsButton.Text = "&Settings...";
+      this.toolTip.SetToolTip(this.settingsButton, "Remove the selected projects");
+      this.settingsButton.UseVisualStyleBackColor = true;
+      this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
       // 
       // AddProjectsDialog
       // 
@@ -174,16 +190,17 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.cancelButton;
       this.ClientSize = new System.Drawing.Size(784, 424);
+      this.Controls.Add(this.settingsButton);
       this.Controls.Add(this.homeLinkLabel);
       this.Controls.Add(this.filterTextBox);
-      this.Controls.Add(this.label1);
+      this.Controls.Add(filterLabel);
       this.Controls.Add(this.removeButton);
       this.Controls.Add(this.cancelButton);
       this.Controls.Add(this.okButton);
       this.Controls.Add(this.addFolderButton);
       this.Controls.Add(this.addFileButton);
       this.Controls.Add(this.projectsListView);
-      this.Controls.Add(this.projectsLabel);
+      this.Controls.Add(projectsLabel);
       this.Name = "AddProjectsDialog";
       this.Text = "Add Existing Projects";
       this.ResumeLayout(false);
@@ -192,18 +209,16 @@
     }
 
     #endregion
-
-    private System.Windows.Forms.Label projectsLabel;
     private FileNameListView projectsListView;
     private System.Windows.Forms.Button addFileButton;
     private System.Windows.Forms.Button addFolderButton;
     private System.Windows.Forms.Button okButton;
     private System.Windows.Forms.Button cancelButton;
     private System.Windows.Forms.Button removeButton;
-    private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox filterTextBox;
     private System.Windows.Forms.Timer updateFilterTimer;
     private System.Windows.Forms.ToolTip toolTip;
     private System.Windows.Forms.LinkLabel homeLinkLabel;
+    private System.Windows.Forms.Button settingsButton;
   }
 }

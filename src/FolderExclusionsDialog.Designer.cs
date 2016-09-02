@@ -48,6 +48,16 @@
       folderExclusionsLabel.TabIndex = 0;
       folderExclusionsLabel.Text = "Enter &folder exclusions below, one exclusion per line";
       // 
+      // projectTypesLabel
+      // 
+      projectTypesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      projectTypesLabel.AutoSize = true;
+      projectTypesLabel.Location = new System.Drawing.Point(321, 9);
+      projectTypesLabel.Name = "projectTypesLabel";
+      projectTypesLabel.Size = new System.Drawing.Size(129, 13);
+      projectTypesLabel.TabIndex = 2;
+      projectTypesLabel.Text = "Enter &project types below:";
+      // 
       // folderExclusionsTextBox
       // 
       this.folderExclusionsTextBox.AcceptsReturn = true;
@@ -95,16 +105,6 @@
       this.resetToDefaultLinkLabel.TabStop = true;
       this.resetToDefaultLinkLabel.Text = "Reset to default";
       this.resetToDefaultLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.resetToDefaultLinkLabel_LinkClicked);
-      // 
-      // projectTypesLabel
-      // 
-      projectTypesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      projectTypesLabel.AutoSize = true;
-      projectTypesLabel.Location = new System.Drawing.Point(321, 9);
-      projectTypesLabel.Name = "projectTypesLabel";
-      projectTypesLabel.Size = new System.Drawing.Size(129, 13);
-      projectTypesLabel.TabIndex = 2;
-      projectTypesLabel.Text = "Enter &project types below:";
       // 
       // projectTypesTextBox
       // 
