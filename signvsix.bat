@@ -1,1 +1,0 @@
-@SIGNPKG src\bin\Release\Cyotek.VisualStudioExtensions.AddProjects.vsix builds\Cyotek.VisualStudioExtensions.AddProjects.vsix

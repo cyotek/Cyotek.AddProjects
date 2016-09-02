@@ -168,3 +168,5 @@ builds/
 *.ncrunchsolution
 *.ncrunchproject
 *.GhostDoc.xml
+
+build.cmd
