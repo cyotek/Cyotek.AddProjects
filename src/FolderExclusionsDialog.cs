@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
+// TODO: Rename this to be a settings dialog
+
 namespace Cyotek.VisualStudioExtensions.AddProjects
 {
     using System.Linq;
@@ -31,7 +33,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
           sb.AppendLine(exclusion);
         }
 
-        exclusionsTextBox.Text = sb.ToString();
+        folderExclusionsTextBox.Text = sb.ToString();
       }
         if (projectTypes.Count != 0)
         {
@@ -58,7 +60,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         results = new List<string>();
 
         // ReSharper disable once LoopCanBePartlyConvertedToQuery
-        foreach (string line in exclusionsTextBox.Lines)
+        foreach (string line in folderExclusionsTextBox.Lines)
         {
           if (!string.IsNullOrWhiteSpace(line) && !results.Contains(line))
           {
@@ -92,7 +94,11 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void resetToDefaultLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      exclusionsTextBox.Text = "\\bower_components\\\r\n\\node_modules\\\r\n\\bin\\\r\n\\obj\\";
+      if (MessageBox.Show(this, "Are you sure you want to reset exclusion and project type settings to their default values?", "Reset Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      {
+        folderExclusionsTextBox.Text = "\\bower_components\\\r\n\\node_modules\\\r\n\\bin\\\r\n\\obj\\";
+        projectTypesTextBox.Text = "C# Projects|*.csproj\r\nVisual Basic Projects|*.vbproj\r\nC++ Projects|*.vcproj;*.vcxproj\r\nF# Projects|*.fsproj\r\nNuGet Packager Projects|*.nuproj";
+      }
     }
 
     #endregion
