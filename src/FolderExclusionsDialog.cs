@@ -6,7 +6,9 @@ using System.Windows.Forms;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
 {
-  public partial class FolderExclusionsDialog : BaseForm
+    using System.Linq;
+
+    public partial class FolderExclusionsDialog : BaseForm
   {
     #region Constructors
 
@@ -15,7 +17,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       this.InitializeComponent();
     }
 
-    public FolderExclusionsDialog(ExtensionSettingsProjectCollection exclusions)
+    public FolderExclusionsDialog(ExtensionSettingsProjectCollection exclusions, ExtensionSettingsProjectCollection projectTypes)
       : this()
     {
       if (exclusions.Count != 0)
@@ -31,6 +33,15 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
         exclusionsTextBox.Text = sb.ToString();
       }
+        if (projectTypes.Count != 0)
+        {
+            var sb = new StringBuilder();
+            foreach (var projectType in projectTypes)
+            {
+                sb.AppendLine(projectType);
+            }
+            projectTypesTextBox.Text = sb.ToString();
+        }
     }
 
     #endregion
@@ -59,11 +70,15 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       }
     }
 
+    [Browsable(false)]
+    public string[] ProjectTypes
+       => projectTypesTextBox.Lines.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct().ToArray();
+
     #endregion
 
     #region Methods
 
-    private void cancelButton_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
     {
       this.DialogResult = DialogResult.Cancel;
       this.Close();

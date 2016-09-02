@@ -10,9 +10,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   {
     #region Static Methods
 
-    internal static string[] GetSearchMasks()
+    internal static string[] GetSearchMasks(ExtensionSettingsProjectCollection projectTypes)
     {
-      return GetSearchMasks(GetProjectsFilter().ToString());
+      return GetSearchMasks(GetProjectsFilter(projectTypes).ToString());
     }
 
     internal static string[] GetSearchMasks(string filter)
@@ -31,15 +31,20 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       return masks.ToArray();
     }
 
-    internal static FileDialogFilterBuilder GetProjectsFilter()
+    internal static FileDialogFilterBuilder GetProjectsFilter(ExtensionSettingsProjectCollection projectTypes)
     {
       FileDialogFilterBuilder builder;
 
       builder = new FileDialogFilterBuilder();
-      builder.Add("C# Projects", "*.csproj");
-      builder.Add("Visual Basic Projects", "*.vbproj");
-      builder.Add("C++ Projects", "*.vcproj;*.vcxproj");
-      builder.Add("F# Projects", "*.fsproj");
+        foreach (var projectType in projectTypes)
+        {
+            var data = projectType.Split(new [] { '|'}, 1);
+            var projectName = data[0];
+            var projectFilter = data.Length > 1
+                ? data[1]
+                : projectName;
+            builder.Add(projectName, projectFilter);
+        }
       builder.AddAllFiles();
 
       return builder;

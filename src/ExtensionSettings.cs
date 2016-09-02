@@ -7,6 +7,17 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
   [Serializable]
   public class ExtensionSettings
   {
+      private ExtensionSettingsProjectCollection _projectTypes;
+
+      public static ExtensionSettingsProjectCollection DefaultProjectTypes = new ExtensionSettingsProjectCollection
+      {
+          "C# Projects|*.csproj",
+          "Visual Basic Projects|*.vbproj",
+          "C++ Projects|*.vcproj;*.vcxproj",
+          "F# Projects|*.fsproj",
+          "NuGet Packager Projects|*.nuproj"
+      };
+
     #region Static Constructors
 
     static ExtensionSettings()
@@ -68,6 +79,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     #region Properties
 
     public ExtensionSettingsProjectCollection ExcludedFolders { get; set; }
+
+    public ExtensionSettingsProjectCollection ProjectTypes
+    {
+          get { return _projectTypes ?? (_projectTypes = DefaultProjectTypes); }
+          set { _projectTypes = value; }
+    }
 
     public ExtensionSettingsProjectCollection Projects { get; set; }
 

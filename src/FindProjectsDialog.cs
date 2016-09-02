@@ -84,7 +84,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void excludeFoldersLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      using (FolderExclusionsDialog dialog = new FolderExclusionsDialog(_settings.ExcludedFolders))
+      using (FolderExclusionsDialog dialog = new FolderExclusionsDialog(_settings.ExcludedFolders, _settings.ProjectTypes))
       {
         if (dialog.ShowDialog(this) == DialogResult.OK)
         {
@@ -92,6 +92,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
           // note they currently won't be saved as we don't have access to the filename right now
           _settings.ExcludedFolders.Clear();
           _settings.ExcludedFolders.AddRange(dialog.ExcludedFolders);
+
+          _settings.ProjectTypes.Clear();
+          _settings.ProjectTypes.AddRange(dialog.ProjectTypes);          
 
           // re-apply the search so we can exclude anything previously picked up
           this.SearchProjects();
@@ -164,7 +167,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
           if (_searchMasks == null)
           {
-            _searchMasks = Utilities.GetSearchMasks();
+            _searchMasks = Utilities.GetSearchMasks(_settings.ProjectTypes);
           }
 
           if (path[path.Length - 1] != Path.DirectorySeparatorChar && path[path.Length - 1] != Path.AltDirectorySeparatorChar)
