@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+1.0.6.0
+-------
+
+#### Added
+* Added the ability to customize the file dialog filters
+* Added Nuget projects (*.nuproj) as a default file filter
+* Added the ability to configure settings via the main dialog
+
+#### Removed
+* Removed manifest support for older versions of Visual Studio, this was broken by an earlier update that upgraded to use the Visual Studio 2015 SDK. For Visual Studio 2013 support, you can [download](<http://www.cyotek.com/files/vsix/addprojects/1.0.3.0/Cyotek.VisualStudioExtensions.AddProjects.vsix>) an older version
+
+#### Fixed
+* Correctly a duplicate accelerator in the main window
+
 1.0.5.0
 -------
 
