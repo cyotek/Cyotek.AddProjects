@@ -1,4 +1,4 @@
-![icon-64](resources/icon-32.png) Cyotek Add Existing Projects Visual Studio Extension
+Cyotek Add Existing Projects Visual Studio Extension
 ====================================================
 
 The excitingly named **Add Existing Projects** extension is a simple Visual Studio extension that makes it easy to add multiple projects to your solution without wearing your fingers out manually adding projects one at a time.
