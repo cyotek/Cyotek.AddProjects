@@ -11,6 +11,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
       public static ExtensionSettingsProjectCollection DefaultProjectTypes = new ExtensionSettingsProjectCollection
       {
+          "All Project Files|*.csproj;*.pssproj;*.vbproj;*.shproj;*.wixproj;*.exe;*.vcxproj;*.vcproj;*.dsp;*.mdp;*.props;*.vcp;*.vcxitems;*.xproj;*.jsproj;*.msbuildproj;*.vcp*.sqlproj;*.dbproj;project.json",
           "C# Projects|*.csproj",
           "Visual Basic Projects|*.vbproj",
           "C++ Projects|*.vcproj;*.vcxproj",
