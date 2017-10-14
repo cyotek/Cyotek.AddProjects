@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.VisualStudioExtensions.AddProjects", "src\Cyotek.VisualStudioExtensions.AddProjects.csproj", "{A2EBDF4C-FB22-464B-AB34-4ED9EB38F0E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.VisualStudioExtensions.AddProjects.vs2015", "src\Cyotek.VisualStudioExtensions.AddProjects.vs2015.csproj", "{A2EBDF4C-FB22-464B-AB34-4ED9EB38F0E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
 {
+  [Serializable]
   public class ExtensionSettingsProjectCollection : Collection<string>
   {
     #region Methods
