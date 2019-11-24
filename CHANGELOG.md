@@ -1,6 +1,18 @@
 Change Log
 ==========
 
+1.0.8.1
+-------
+
+#### Added
+
+* Missing projects are now highlighted in the list (this was previously only available in debug builds)
+
+#### Fixed
+
+* Default filters were continuously being duplicated
+* Clicking OK in the Add Projects Dialog now continues even if no projects were selected to add (e.g. it saves any setting changes)
+
 1.0.8.0
 -------
 
