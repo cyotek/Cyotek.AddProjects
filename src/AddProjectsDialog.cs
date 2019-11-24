@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
@@ -51,6 +52,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     protected override void OnLoad(EventArgs e)
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       base.OnLoad(e);
 
       this.LoadSettings();
@@ -170,6 +175,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       IVsHierarchy[] hierarchy;
       uint fetched;
 
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       // http://stackoverflow.com/a/304376/148962
 
       _currentSolution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, ref guid, out enumerator);
@@ -218,6 +227,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void okButton_Click(object sender, EventArgs e)
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       try
       {
         if (projectsListView.CheckedItems.Count == 0)
@@ -291,6 +304,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void PopulateLoadedProjectsList()
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       _loadedProjects = new List<string>();
 
       foreach (IVsProject project in this.GetSolutionProjects())

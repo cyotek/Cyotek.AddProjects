@@ -19,7 +19,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class VSPackage {
@@ -70,7 +70,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cyotek Add Projects 1.0.5.0 package for Microsoft Visual Studio. For more information about this extension, visit http://www.cyotek.com/. Copyright © 2013-2016 Cyotek Ltd..
+        ///   Looks up a localized string similar to Cyotek Add Projects 1.0.7.0 package for Microsoft Visual Studio. For more information about this extension, visit http://www.cyotek.com/. Copyright © 2013-2019 Cyotek Ltd..
         /// </summary>
         internal static string _112 {
             get {

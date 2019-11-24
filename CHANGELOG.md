@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+1.0.8.0
+-------
+
+#### Added
+
+* Added support for Visual Studio 2019
+
+1.0.7.0
+-------
+
+#### Added
+
+* Added support for Visual Studio 2017
+
 1.0.6.0
 -------
 
