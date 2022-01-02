@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cyotek.VisualStudioExtensions.AddProjects
@@ -51,6 +52,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     protected override void OnLoad(EventArgs e)
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       base.OnLoad(e);
 
       this.LoadSettings();
@@ -68,12 +73,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       this.EnsureFilterCreated();
 
       using (OpenFileDialog dialog = new OpenFileDialog
-                                     {
-                                       Filter = _filter.ToString(),
-                                       DefaultExt = "csproj", // TODO: Calculate this based on the filter
-                                       Title = "Add Project",
-                                       Multiselect = true
-                                     })
+      {
+        Filter = _filter.ToString(),
+        DefaultExt = "csproj", // TODO: Calculate this based on the filter
+        Title = "Add Project",
+        Multiselect = true
+      })
       {
         if (dialog.ShowDialog(this) == DialogResult.OK)
         {
@@ -120,12 +125,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       {
         this.MarkProjectAsLoaded(item);
       }
-#if DEBUG
       else if (!File.Exists(fileName))
       {
         this.MarkProjectAsNotFound(item);
       }
-#endif
       else
       {
         item.Tag = false;
@@ -169,6 +172,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       Guid guid = Guid.Empty;
       IVsHierarchy[] hierarchy;
       uint fetched;
+
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
 
       // http://stackoverflow.com/a/304376/148962
 
@@ -218,70 +225,66 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void okButton_Click(object sender, EventArgs e)
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       try
       {
-        if (projectsListView.CheckedItems.Count == 0)
+        StringBuilder errors;
+
+        this.BeginAction();
+
+        _settings.Save(_settingsFileName);
+
+        errors = new StringBuilder();
+
+        foreach (ListViewItem item in projectsListView.CheckedItems)
         {
-          this.DialogResult = DialogResult.None;
-          MessageBox.Show("Please select one or more projects to add to the current solution.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        else
-        {
-          StringBuilder errors;
+          string fileName;
 
-          this.BeginAction();
+          fileName = item.Name;
 
-          _settings.Save(_settingsFileName);
-
-          errors = new StringBuilder();
-
-          foreach (ListViewItem item in projectsListView.CheckedItems)
+          if (!_loadedProjects.Contains(fileName))
           {
-            string fileName;
-
-            fileName = item.Name;
-
-            if (!_loadedProjects.Contains(fileName))
+            if (!File.Exists(fileName))
             {
-              if (!File.Exists(fileName))
+              errors.AppendLine($"Project file '{fileName}' not found, unable to add to solution.").AppendLine();
+            }
+            else
+            {
+              Guid projectType;
+              Guid projectId;
+              int result;
+              IntPtr project;
+
+              projectType = Guid.Empty;
+              projectId = Guid.Empty;
+
+              result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
+
+              if (result != VSConstants.S_OK)
               {
-                errors.AppendLine($"Project file '{fileName}' not found, unable to add to solution.").AppendLine();
+                errors.AppendLine($"Failed to add project: {fileName}").AppendLine();
               }
               else
               {
-                Guid projectType;
-                Guid projectId;
-                int result;
-                IntPtr project;
-
-                projectType = Guid.Empty;
-                projectId = Guid.Empty;
-
-                result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
-
-                if (result != VSConstants.S_OK)
-                {
-                  errors.AppendLine($"Failed to add project: {fileName}").AppendLine();
-                }
-                else
-                {
-                  _loadedProjects.Add(fileName);
-                  this.MarkProjectAsLoaded(item);
-                }
+                _loadedProjects.Add(fileName);
+                this.MarkProjectAsLoaded(item);
               }
             }
           }
-
-          this.EndAction();
-
-          if (errors.Length != 0)
-          {
-            MessageBox.Show(errors.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-          }
-
-          this.DialogResult = DialogResult.OK;
-          this.Close();
         }
+
+        this.EndAction();
+
+        if (errors.Length != 0)
+        {
+          MessageBox.Show(errors.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        this.DialogResult = DialogResult.OK;
+        this.Close();
       }
       catch (Exception ex)
       {
@@ -291,6 +294,10 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void PopulateLoadedProjectsList()
     {
+#if VS2019
+      ThreadHelper.ThrowIfNotOnUIThread();
+#endif
+
       _loadedProjects = new List<string>();
 
       foreach (IVsProject project in this.GetSolutionProjects())

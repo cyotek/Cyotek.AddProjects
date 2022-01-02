@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -71,6 +71,11 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         }
       }
 
+      if (settings.ProjectTypes.Count == 0)
+      {
+        settings.ProjectTypes.AddRange(ExtensionSettings.DefaultProjectTypes);
+      }
+
       return settings;
     }
 
@@ -82,7 +87,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     public ExtensionSettingsProjectCollection ProjectTypes
     {
-          get { return _projectTypes ?? (_projectTypes = DefaultProjectTypes); }
+          get { return _projectTypes ?? (_projectTypes = new ExtensionSettingsProjectCollection()); }
           set { _projectTypes = value; }
     }
 
