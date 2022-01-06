@@ -52,9 +52,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     protected override void OnLoad(EventArgs e)
     {
-#if VS2019
       ThreadHelper.ThrowIfNotOnUIThread();
-#endif
 
       base.OnLoad(e);
 
@@ -173,9 +171,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       IVsHierarchy[] hierarchy;
       uint fetched;
 
-#if VS2019
       ThreadHelper.ThrowIfNotOnUIThread();
-#endif
 
       // http://stackoverflow.com/a/304376/148962
 
@@ -225,9 +221,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void okButton_Click(object sender, EventArgs e)
     {
-#if VS2019
       ThreadHelper.ThrowIfNotOnUIThread();
-#endif
 
       try
       {
@@ -294,9 +288,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
     private void PopulateLoadedProjectsList()
     {
-#if VS2019
       ThreadHelper.ThrowIfNotOnUIThread();
-#endif
 
       _loadedProjects = new List<string>();
 
