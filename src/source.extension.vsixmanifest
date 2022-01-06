@@ -5,9 +5,9 @@
         <DisplayName>Add Existing Projects</DisplayName>
         <Description xml:space="preserve">A simple extension that allows you to easily add multiple projects to a solution with having to manually browse multiple files.</Description>
         <MoreInfo>http://www.cyotek.com/blog/tag/vsix</MoreInfo>
-        <License>Resources\LICENSE.txt</License>
-        <Icon>Resources\Package.ico</Icon>
-        <PreviewImage>Resources\preview-image.png</PreviewImage>
+        <License>res\LICENSE.txt</License>
+        <Icon>res\Package.ico</Icon>
+        <PreviewImage>res\preview-image.png</PreviewImage>
         <Tags />
         <Preview>true</Preview>
     </Metadata>

@@ -27,9 +27,11 @@ the extension isn't really actively developed.
 
 ## Using the extension
 
+![Accessing the extension][menuscreen]
+
 To use the extension, open the **Tools** menu and choose **Add
 Projects**. This will open a lovely unthemed Windows Forms
-dialog containing a list of projects that can be automatically
+dialogue containing a list of projects that can be automatically
 added.
 
 Projects are colour coded as follows
@@ -38,44 +40,79 @@ Projects are colour coded as follows
 * Grey - the project is already part of the active solution
 * Red - the source project cannot be found
 
-Note that the first time you open this dialog, the list will be
+Note that the first time you open this dialogue, the list will be
 empty - the MRU must be populated by yourself.
+
+![The main project window][mainscreen]
+
+Check each project you want to add to your solution, then click
+the **OK** button. It will then try and add each selected
+project to your solution, skipping any that are already present.
+
+You can limit the projects displayed in the list by entering
+text into the **Filter** field. This filter text can be a
+regular expression and is matched on the entire filename,
+including the path.
+
+### Configuring settings
+
+![The setting dialogue][settingsscreen]
+
+The settings dialog allows you to configure folder exclusions
+used by the **Find Projects** dialogue (for example you probably
+don't want to scan `node_modules`) and the project types used by
+both the **Find Projects** dialog and the manual file browser
+dialogue.
+
+To display the settings dialog, click **Settings** from the main
+window.
+
+#### Configuring folder exclusions
+
+Enter the names of any folders you want to exclude from
+automatic scanning, one per line. These matches are a simple
+text match on a full path, so use directory separators to avoid
+partial matches - e.g. `\bin\` to ignore all folders named
+`bin`, but not folders that contain `bin`.
+
+#### Configuring project types
+
+Enter a simple description and file mask for each type, one type
+per line. Separate the description and mask with the pipe (`|`)
+character. Multiple masks can be used, separate each with a
+semi-colon (`;`).
+
+See the [Filter][filedialogfilter] property documentation for
+the `FileDialog` class for more information on this method of
+specifying filter options.
 
 ### Adding a single project to the MRU
 
 To add a single project to the list, click the **Add File**
 button then select the project you want to include.
 
-> Note: Currently changes won't be saved unless you also add
-something to you project. So if you add a bunch of stuff, then
-hit cancel... oops. I'll fix this at some point!
+> Note: Currently changes won't be saved unless you click **OK**
+> from this dialogue, _or_ click the **Settings** button and then
+> click **OK** from the Settings dialogue.
 
 ### Adding multiple projects to the MRU
 
+![Scanning a folder for projects][addfolderscreen]
+
 To add multiple projects to the list, click the **Add Folder**
-button, then select a folder. After you've selected a folder,
-all projects in this folder and its subfolders will be added to
-the list.
+button, then select a folder. The folder (and its sub folders)
+will then be scanned for any projects not already in the main
+MRU. Tick the projects you want to add, then click **OK** to update
+the main list.
 
 ### Removing projects from the MRU
 
-You can remove projects from the list, just select them and
-press the `Delete` key or the **Remove** button.
+To remove projects from the MRU, select one or more projects,
+click the **Remove button** and then confirm the removal.
 
-### Adding projects to your solution
-
-Just place tick each project you want to add to your solution,
-then click the OK button. It will then try and add each selected
-project to your solution, skipping any that are already present.
-
-### Filtering
-
-Most of the information here (especially the screenshots) are
-taken from my original blog post on the subject. However, since
-then I did make one update to the extension to add some basic
-filtering to the dialog. If you have a big list of project, just
-type a few matching characters in the Filter box to trim visible
-items.
+> Note: Currently changes won't be saved unless you click **OK**
+> from this dialogue, _or_ click the **Settings** button and then
+> click **OK** from the Settings dialogue.
 
 ## Configuration Settings
 
@@ -116,7 +153,7 @@ ignore when automatically scanning a folder tree, for example
 `node_modules`.
 
 The `ProjectTypes` element stores a set of filters that are used
-by file and folder dialogs.
+by file and folder dialogues.
 
 ## Known Issues
 
@@ -192,3 +229,10 @@ License. See `LICENSE.txt` for the full text.
 [vs2017dl]: https://marketplace.visualstudio.com/items?itemName=RichardJMoss.AddExistingProjects-19444
 [vs2019dl]: https://github.com/cyotek/Cyotek.AddProjects/releases/tag/1.0.8.1
 [vs2022dl]: https://marketplace.visualstudio.com/items?itemName=cyotek.cyotekaddprojectsvs2022
+
+[filedialogfilter]: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.filedialog.filter?view=windowsdesktop-6.0#remarks
+
+[menuscreen]: res/addprojects-menu.png
+[mainscreen]: res/addprojects-main.png
+[addfolderscreen]: res/addprojects-findprojects.png
+[settingsscreen]: res/addprojects-settings.png

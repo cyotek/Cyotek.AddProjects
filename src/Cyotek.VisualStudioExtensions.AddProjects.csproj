@@ -135,11 +135,12 @@
     <EmbeddedResource Include="VSPackage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>VSPackage.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\LICENSE.txt">
-      <Link>Resources\LICENSE.txt</Link>
+      <Link>res\LICENSE.txt</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
