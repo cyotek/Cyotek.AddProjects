@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -18,6 +20,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     #region Constants
 
     private readonly IVsSolution _currentSolution;
+    private readonly EnvDTE80.DTE2 _dte80;
 
     #endregion
 
@@ -40,10 +43,11 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
       this.InitializeComponent();
     }
 
-    public AddProjectsDialog(IVsSolution solution)
+    public AddProjectsDialog(IVsSolution solution, EnvDTE80.DTE2 dte80)
       : this()
     {
       _currentSolution = solution;
+      _dte80 = dte80;
     }
 
     #endregion
@@ -192,7 +196,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     {
       try
       {
-        Process.Start("http://www.cyotek.com/");
+        System.Diagnostics.Process.Start("http://www.cyotek.com/");
       }
       catch (Exception ex)
       {
@@ -233,6 +237,9 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
         errors = new StringBuilder();
 
+        SolutionFoldersStructureCreator foldersCreator =
+          new SolutionFoldersStructureCreator(_currentSolution, _dte80);
+
         foreach (ListViewItem item in projectsListView.CheckedItems)
         {
           string fileName;
@@ -249,19 +256,43 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
             {
               Guid projectType;
               Guid projectId;
-              int result;
               IntPtr project;
+              int result = -1;
 
               projectType = Guid.Empty;
               projectId = Guid.Empty;
 
-              result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
-
-              if (result != VSConstants.S_OK)
+              try
               {
-                errors.AppendLine($"Failed to add project: {fileName}").AppendLine();
+                Project existingProject = null;
+                if (chkCreateSolutionFoldersStructure.Checked)
+                {
+                  (string parentDir, Project dteProject) = foldersCreator.CreateFoldersStructure(fileName);
+                  if (dteProject != null)
+                  {
+                    SolutionFolder folder1 = (SolutionFolder)dteProject.Object;
+                    existingProject = folder1.AddFromFile(fileName);
+                  }
+                }
+
+                if (existingProject != null)
+                {
+                  result = VSConstants.S_OK;
+                }
+                else
+                {
+                  result = _currentSolution.CreateProject(ref projectType, fileName, null, null, (uint)(__VSCREATEPROJFLAGS.CPF_OPENFILE | __VSCREATEPROJFLAGS.CPF_SILENT), ref projectId, out project);
+                }
               }
-              else
+              catch (Exception ex)
+              {
+                //Utilities.ShowExceptionMessage(ex);
+                errors.AppendLine($"Failed to add project: {fileName}");
+                errors.AppendLine(ex.GetBaseException().Message).AppendLine();
+              }
+
+
+              if (result == VSConstants.S_OK)
               {
                 _loadedProjects.Add(fileName);
                 this.MarkProjectAsLoaded(item);
@@ -276,9 +307,11 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
         {
           MessageBox.Show(errors.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        this.DialogResult = DialogResult.OK;
-        this.Close();
+        else
+        {
+          this.DialogResult = DialogResult.OK;
+          this.Close();
+        }
       }
       catch (Exception ex)
       {

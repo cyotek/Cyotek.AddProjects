@@ -76,10 +76,12 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
     private void MenuItemCallback(object sender, EventArgs e)
     {
       IVsSolution solution;
-      
+      EnvDTE80.DTE2 dte80;
+
       ThreadHelper.ThrowIfNotOnUIThread();
 
       solution = this.GetService(typeof(SVsSolution)) as IVsSolution;
+      dte80 = this.GetService(typeof(SDTE)) as EnvDTE80.DTE2;
 
       if (solution != null)
       {
@@ -91,7 +93,7 @@ namespace Cyotek.VisualStudioExtensions.AddProjects
 
         if (!(string.IsNullOrEmpty(solutionDirectory) || string.IsNullOrEmpty(solutionFileName)))
         {
-          using (AddProjectsDialog dialog = new AddProjectsDialog(solution))
+          using (AddProjectsDialog dialog = new AddProjectsDialog(solution, dte80))
           {
             dialog.ShowDialog();
           }
